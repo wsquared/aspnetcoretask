@@ -1,12 +1,12 @@
-{
+﻿{
   "version": "1.0.0",
   "description": "",
-  "authors": [ "" ],
+  "authors": [ "Willwin Wang" ],
   "tags": [ "" ],
   "projectUrl": "",
   "licenseUrl": "",
   "tooling": {
-    "defaultNamespace": "Task.Web.Api.Tests"
+    "defaultNamespace": "Task.Data.Tests"
   },
   "commands": {
     "test": "xunit.runner.dnx"
@@ -16,13 +16,13 @@
       "dependencies": {
         "xunit": "2.1.0",
         "xunit.runner.dnx": "2.1.0-rc1-build204",
-        "Task.Web.Api": "1.0.0",
-        "Task.Client.Entities": "1.0.0",
         "Microsoft.CSharp": "4.0.1-beta-23516",
         "System.Collections": "4.0.11-beta-23516",
         "System.Linq": "4.0.1-beta-23516",
         "System.Runtime": "4.0.21-beta-23516",
-        "System.Threading": "4.0.11-beta-23516"
+        "System.Threading": "4.0.11-beta-23516",
+        "Task.Data": "1.0.0",
+        "Task.Business.Entities": "1.0.0"
       }
     }
   }

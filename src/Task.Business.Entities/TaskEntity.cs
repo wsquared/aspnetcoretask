@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace Task.Models
+namespace Task.Business.Entities
 {
-    public class TaskViewModel
+    public class TaskEntity
     {
         public Guid TaskId { get; set; }
         public string Title { get; set; }

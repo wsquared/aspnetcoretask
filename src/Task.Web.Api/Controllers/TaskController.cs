@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.AspNet.Mvc;
-using Task.Models;
+using Task.Client.Entities;
 
 namespace Task.Controllers
 {
@@ -40,16 +40,17 @@ namespace Task.Controllers
 
         // POST api/task
         [HttpPost]
-        public IActionResult Post([FromBody]TaskViewModel value)
+        public IActionResult Post([FromBody] TaskViewModel value)
         {
-            return Ok(new TaskViewModel());
+            // TODO: Find and send current Uri
+            return Created("", new TaskViewModel());
         }
 
         // PUT api/task/5
         [HttpPut("{id}")]
-        public IActionResult Put(Guid id, [FromBody]TaskViewModel value)
+        public IActionResult Put(Guid id, [FromBody] TaskViewModel value)
         {
-            return Ok(new TaskViewModel());
+            return new NoContentResult();
         }
     }
 }
