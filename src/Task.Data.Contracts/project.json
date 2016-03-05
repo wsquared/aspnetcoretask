@@ -2,7 +2,10 @@
   "version": "1.0.0",
   "description": "Task.Data.Contracts",
   "authors": [ "willwin.wang" ],
-  "tags": [ "" ],
+  "tags": [ "Task.Data.Contracts" ],
+  "tooling": {
+    "defaultNamespace": "Task.Data.Contracts"
+  },
   "projectUrl": "",
   "licenseUrl": "",
   "dependencies": { "Task.Business.Entities": "1.0.0" },

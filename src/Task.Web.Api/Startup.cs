@@ -4,6 +4,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Serialization;
+using Task.Data;
+using Task.Data.Contracts;
 
 namespace Task
 {
@@ -30,6 +32,8 @@ namespace Task
                     options.SerializerSettings.ContractResolver =
                     new CamelCasePropertyNamesContractResolver();
                 });
+
+            services.AddTransient<ITaskRepository, TaskRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -18,7 +18,10 @@
         "Microsoft.Extensions.Logging": "1.0.0-rc1-final",
         "Microsoft.Extensions.Logging.Console": "1.0.0-rc1-final",
         "Microsoft.Extensions.Logging.Debug": "1.0.0-rc1-final",
-        "Task.Client.Entities": "1.0.0"
+        "Task.Client.Entities": "1.0.0",
+        "Task.Business.Entities": "1.0.0",
+        "Task.Data": "1.0.0",
+        "Task.Data.Contracts": "1.0.0"
       }
     }
   },

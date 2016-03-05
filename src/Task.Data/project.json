@@ -5,6 +5,9 @@
   "tags": [ "" ],
   "projectUrl": "",
   "licenseUrl": "",
+  "tooling": {
+    "defaultNamespace": "Task.Data"
+  },
   "dependencies": {
     "Task.Data.Contracts": "1.0.0"
   },

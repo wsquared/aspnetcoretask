@@ -1,9 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.AspNet.Http;
 using Microsoft.AspNet.Mvc;
+using Moq;
 using Task.Controllers;
 using Task.Client.Entities;
+using Task.Business.Entities;
+using Task.Data.Contracts;
 using Xunit;
 
 namespace TaskWeb.Api.Tests.Controllers
@@ -14,7 +18,9 @@ namespace TaskWeb.Api.Tests.Controllers
         public void GetTaskViewModels()
         {
             // Arrange
-            var controller = new TaskController();
+            var mock = new Mock<ITaskRepository>();
+            mock.Setup(x => x.Get()).Returns(new List<TaskEntity>());
+            var controller = new TaskController(mock.Object);
             
             //Act
             var response = (HttpOkObjectResult) controller.Get();
@@ -27,8 +33,10 @@ namespace TaskWeb.Api.Tests.Controllers
         public void ReturnTaskViewModelWhenCreateNewTask()
         {
             // Arrange
-            var controller = new TaskController();
-            
+            var mock = new Mock<ITaskRepository>();
+            mock.Setup(x => x.Create(It.IsAny<TaskEntity>())).Returns(It.IsAny<TaskEntity>());
+            var controller = new TaskController(mock.Object);
+
             //Act
             var response = (CreatedResult) controller.Post(new TaskViewModel());
 
@@ -40,7 +48,9 @@ namespace TaskWeb.Api.Tests.Controllers
         public void ReturnCreatedStatusCodeCreateNewTask()
         {
             // Arrange
-            var controller = new TaskController();
+            var mock = new Mock<ITaskRepository>();
+            mock.Setup(x => x.Create(It.IsAny<TaskEntity>())).Returns(It.IsAny<TaskEntity>());
+            var controller = new TaskController(mock.Object);
 
             //Act
             var response = (CreatedResult)controller.Post(new TaskViewModel());
@@ -53,8 +63,10 @@ namespace TaskWeb.Api.Tests.Controllers
         public void ReturnNoContentWhenUpdateTask()
         {
             // Arrange
-            var controller = new TaskController();
-            
+            var mock = new Mock<ITaskRepository>();
+            mock.Setup(x => x.Update(It.IsAny<TaskEntity>()));
+            var controller = new TaskController(mock.Object);
+
             //Act
             var response = (NoContentResult) controller.Put(Guid.NewGuid(), new TaskViewModel());
 

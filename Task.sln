@@ -26,7 +26,7 @@ Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Task.Client.Entities", "src
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Task.Data.Tests", "test\Task.Data.Tests\Task.Data.Tests.xproj", "{700B93A0-2ACC-46BF-BB22-EF4AA3C37F86}"
 EndProject
-Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Task.SqlServer", "Task.SqlServer\Task.SqlServer.sqlproj", "{6E3FA87C-F4E9-48FC-AD02-433688BA205C}"
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Task.SqlServer", "src\Task.SqlServer\Task.SqlServer.sqlproj", "{6E3FA87C-F4E9-48FC-AD02-433688BA205C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
