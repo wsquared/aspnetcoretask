@@ -6,27 +6,27 @@
   "commands": {
     "web": "Microsoft.AspNet.Server.Kestrel"
   },
+  "dependencies": {
+    "Microsoft.CSharp": "4.0.1-beta-23516",
+    "Microsoft.AspNet.IISPlatformHandler": "1.0.0-rc1-final",
+    "Microsoft.AspNet.Mvc": "6.0.0-rc1-final",
+    "Microsoft.AspNet.Server.Kestrel": "1.0.0-rc1-final",
+    "Microsoft.AspNet.StaticFiles": "1.0.0-rc1-final",
+    "Microsoft.Extensions.Configuration.FileProviderExtensions": "1.0.0-rc1-final",
+    "Microsoft.Extensions.Configuration.Json": "1.0.0-rc1-final",
+    "Microsoft.Extensions.Logging": "1.0.0-rc1-final",
+    "Microsoft.Extensions.Logging.Console": "1.0.0-rc1-final",
+    "Microsoft.Extensions.Logging.Debug": "1.0.0-rc1-final",
+    "Microsoft.AspNet.Authentication.JwtBearer": "1.0.0-rc1-final",
+    "Task.Common": "1.0.0",
+    "Task.Client.Entities": "1.0.0",
+    "Task.Business.Entities": "1.0.0",
+    "Task.Data": "1.0.0",
+    "Task.Data.Contracts": "1.0.0"
+  },
   "frameworks": {
-    "dnx451": {
-      "dependencies": {
-        "Microsoft.CSharp": "4.0.1-beta-23516",
-        "Microsoft.AspNet.IISPlatformHandler": "1.0.0-rc1-final",
-        "Microsoft.AspNet.Mvc": "6.0.0-rc1-final",
-        "Microsoft.AspNet.Server.Kestrel": "1.0.0-rc1-final",
-        "Microsoft.AspNet.StaticFiles": "1.0.0-rc1-final",
-        "Microsoft.Extensions.Configuration.FileProviderExtensions": "1.0.0-rc1-final",
-        "Microsoft.Extensions.Configuration.Json": "1.0.0-rc1-final",
-        "Microsoft.Extensions.Logging": "1.0.0-rc1-final",
-        "Microsoft.Extensions.Logging.Console": "1.0.0-rc1-final",
-        "Microsoft.Extensions.Logging.Debug": "1.0.0-rc1-final",
-        "Microsoft.AspNet.Authentication.JwtBearer": "1.0.0-rc1-final",
-        "Task.Common": "1.0.0",
-        "Task.Client.Entities": "1.0.0",
-        "Task.Business.Entities": "1.0.0",
-        "Task.Data": "1.0.0",
-        "Task.Data.Contracts": "1.0.0"
-      }
-    }
+    "dnx451": { },
+    "dnxcore50": { }
   },
   "exclude": [
     "wwwroot",

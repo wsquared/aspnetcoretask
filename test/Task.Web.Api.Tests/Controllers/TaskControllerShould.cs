@@ -1,16 +1,15 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Microsoft.AspNet.Http;
 using Microsoft.AspNet.Mvc;
 using Moq;
-using Task.Controllers;
-using Task.Client.Entities;
 using Task.Business.Entities;
+using Task.Client.Entities;
+using Task.Controllers;
 using Task.Data.Contracts;
 using Xunit;
 
-namespace TaskWeb.Api.Tests.Controllers
+namespace Task.Web.Api.Tests.Controllers
 {
     public class TaskControllerShould
     {

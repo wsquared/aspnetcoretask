@@ -2,7 +2,7 @@
 
 namespace Task.Common
 {
-    public class TaskNotFoundException : ApplicationException
+    public class TaskNotFoundException : Exception
     {
         public TaskNotFoundException(string message) : base(message)
         {
