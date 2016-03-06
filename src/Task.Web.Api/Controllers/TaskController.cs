@@ -1,16 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNet.Authorization;
+using Microsoft.AspNet.Http;
 using Microsoft.AspNet.Http.Extensions;
 using Microsoft.AspNet.Mvc;
 using Task.Business.Entities;
 using Task.Client.Entities;
 using Task.Data.Contracts;
+using Task.Core;
+using Task.Common;
 
 namespace Task.Controllers
 {
     [Route("api/[controller]")]
-    public class TaskController : Controller
+    public class TaskController : ControllerBase
     {
         private readonly ITaskRepository _taskRepository;
 
@@ -23,46 +26,75 @@ namespace Task.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            var tasks = _taskRepository.Get();
-
-            if (tasks == null)
+            return GetHttpResponse(() =>
             {
-                return Ok();
-            }
+                var tasks = _taskRepository.Get();
 
-            var taskViewModels = tasks.Select(x => new TaskViewModel
-            {
-                TaskId = x.TaskId,
-                Title = x.Title,
-                Details = x.Details,
-                DueDate = x.DueDate,
-                CompletedDate = x.CompletedDate
+                if (tasks == null)
+                {
+                    return Ok();
+                }
+
+                var taskViewModels = tasks.Select(x => new TaskViewModel
+                {
+                    TaskId = x.TaskId,
+                    Title = x.Title,
+                    Details = x.Details,
+                    DueDate = x.DueDate,
+                    CompletedDate = x.CompletedDate
+                });
+
+                return Ok(taskViewModels);
             });
-
-            return Ok(taskViewModels.ToList());
         }
 
         // POST api/task
         [HttpPost]
+        [Authorize(ActiveAuthenticationSchemes = "Bearer")]
         public IActionResult Post([FromBody] TaskViewModel taskViewModel)
         {
-            var result = _taskRepository.Create(new TaskEntity
+            return GetHttpResponse(() =>
             {
-                TaskId = taskViewModel.TaskId,
-                Title = taskViewModel.Title,
-                Details = taskViewModel.Details,
-                DueDate = taskViewModel.DueDate,
-                CompletedDate = taskViewModel.CompletedDate
-            });
+                var result = _taskRepository.Create(new TaskEntity
+                {
+                    TaskId = taskViewModel.TaskId,
+                    Title = taskViewModel.Title,
+                    Details = taskViewModel.Details,
+                    DueDate = taskViewModel.DueDate,
+                    CompletedDate = taskViewModel.CompletedDate
+                });
 
-            return Created(Request.GetDisplayUrl(), result);
+                return Created(Request.GetDisplayUrl(), result);
+            });
         }
 
         // PUT api/task/5
         [HttpPut("{id}")]
+        [Authorize(ActiveAuthenticationSchemes = "Bearer")]
         public IActionResult Put(Guid id, [FromBody] TaskViewModel taskViewModel)
         {
-            return new NoContentResult();
+            return GetHttpResponse(() =>
+            {
+                var task = _taskRepository.Get(id);
+
+                if (task == null)
+                {
+                    throw new TaskNotFoundException(id.ToString());
+                }
+
+                var taskEntity = new TaskEntity
+                {
+                    TaskId = task.TaskId,
+                    Title = taskViewModel.Title,
+                    Details = taskViewModel.Details,
+                    DueDate = taskViewModel.DueDate,
+                    CompletedDate = taskViewModel.CompletedDate
+                };
+
+                _taskRepository.Update(taskEntity);
+
+                return new HttpStatusCodeResult(StatusCodes.Status204NoContent);
+            });
         }
     }
 }

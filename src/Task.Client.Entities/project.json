@@ -5,6 +5,9 @@
   "tags": [ "" ],
   "projectUrl": "",
   "licenseUrl": "",
+  "tooling": {
+    "defaultNamespace": "Task.Client.Entities"
+  },
   "frameworks": {
     "net451": {
       "dependencies": {

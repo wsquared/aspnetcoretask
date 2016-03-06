@@ -8,6 +8,7 @@ using Task.Controllers;
 using Task.Client.Entities;
 using Task.Business.Entities;
 using Task.Data.Contracts;
+using Task.Common;
 using Xunit;
 
 namespace TaskWeb.Api.Tests.Controllers
@@ -21,12 +22,12 @@ namespace TaskWeb.Api.Tests.Controllers
             var mock = new Mock<ITaskRepository>();
             mock.Setup(x => x.Get()).Returns(new List<TaskEntity>());
             var controller = new TaskController(mock.Object);
-            
+
             //Act
-            var response = (HttpOkObjectResult) controller.Get();
+            var response = (HttpOkObjectResult)controller.Get();
 
             // Assert
-            Assert.IsAssignableFrom(typeof (IEnumerable<TaskViewModel>), response.Value);
+            Assert.IsAssignableFrom(typeof(IEnumerable<TaskViewModel>), response.Value);
         }
 
         [Fact]
@@ -38,7 +39,7 @@ namespace TaskWeb.Api.Tests.Controllers
             var controller = new TaskController(mock.Object);
 
             //Act
-            var response = (CreatedResult) controller.Post(new TaskViewModel());
+            var response = (CreatedResult)controller.Post(new TaskViewModel());
 
             // Assert
             Assert.IsType<TaskViewModel>(response?.Value);
@@ -68,11 +69,10 @@ namespace TaskWeb.Api.Tests.Controllers
             var controller = new TaskController(mock.Object);
 
             //Act
-            var response = (NoContentResult) controller.Put(Guid.NewGuid(), new TaskViewModel());
+            var response = (NoContentResult)controller.Put(Guid.NewGuid(), new TaskViewModel());
 
             // Assert
             Assert.Equal(StatusCodes.Status204NoContent, response?.StatusCode);
         }
-
     }
 }

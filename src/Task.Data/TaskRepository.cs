@@ -9,7 +9,7 @@ namespace Task.Data
 {
     public class TaskRepository : ITaskRepository
     {
-        private static IDbConnection _db = new SqlConnection("");
+        //private static IDbConnection _db = new SqlConnection("");
 
         public TaskRepository()
         {
@@ -17,7 +17,7 @@ namespace Task.Data
 
         public IEnumerable<TaskEntity> Get()
         {
-            var test1 = new TaskEntity
+            yield return new TaskEntity
             {
                 TaskId = Guid.NewGuid(),
                 Title = "Clean car",
@@ -26,7 +26,7 @@ namespace Task.Data
                 CompletedDate = null
             };
 
-            var test2 = new TaskEntity
+            yield return new TaskEntity
             {
                 TaskId = Guid.NewGuid(),
                 Title = "Finish backend work",
@@ -34,13 +34,18 @@ namespace Task.Data
                 DueDate = DateTime.UtcNow.Date,
                 CompletedDate = null
             };
+        }
 
-            var result = new List<TaskEntity>() {
-                test1,
-                test2
+        public TaskEntity Get(Guid taskId)
+        {
+            return new TaskEntity
+            {
+                TaskId = Guid.NewGuid(),
+                Title = "Finish security implementation",
+                Details = "For leveling up security skills",
+                DueDate = DateTime.UtcNow.Date,
+                CompletedDate = null
             };
-
-            return result;
         }
 
         public TaskEntity Create(TaskEntity taskEntity)
