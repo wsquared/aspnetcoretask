@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using Task.Data;
 using Task.Business.Entities;
 using Moq;
+using Task.Data.Contracts.Dapper;
+using Task.Data.Contracts.Factory;
+using Task.Data.Dapper;
 using Xunit;
 
 namespace Task.Data.Tests
@@ -13,7 +15,7 @@ namespace Task.Data.Tests
         public void ReturnTaskEntitiesWhenGet()
         {
             // Arrange
-            var repository = new TaskRepository();
+            var repository = CreateRepository();
 
             //Act
             var result = repository.Get();
@@ -26,7 +28,7 @@ namespace Task.Data.Tests
         public void ReturnTaskEntityWhenGetByTaskId()
         {
             // Arrange
-            var repository = new TaskRepository();
+            var repository = CreateRepository();
 
             //Act
             var result = repository.Get(It.IsAny<Guid>());
@@ -39,7 +41,7 @@ namespace Task.Data.Tests
         public void ReturnNewTaskEntityWhenCreateNewTask()
         {
             // Arrange
-            var repository = new TaskRepository();
+            var repository = CreateRepository();
 
             //Act
             var result = repository.Create(new TaskEntity());
@@ -52,7 +54,7 @@ namespace Task.Data.Tests
         public void NotThrowExceptionWhenUpdate()
         {
             // Arrange
-            var repository = new TaskRepository();
+            var repository = CreateRepository();
 
             try
             {
@@ -66,5 +68,12 @@ namespace Task.Data.Tests
             }
         }
 
+        private static ITaskRepository CreateRepository()
+        {
+            var mock = new Mock<ISqlServerConnectionFactory>();
+            // Setup database
+
+            return new TaskRepository(mock.Object);
+        }
     }
 }

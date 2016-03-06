@@ -9,8 +9,10 @@ using Microsoft.Extensions.OptionsModel;
 using Newtonsoft.Json.Serialization;
 
 using Task.Core;
-using Task.Data;
-using Task.Data.Contracts;
+using Task.Data.Contracts.Dapper;
+using Task.Data.Contracts.Factory;
+using Task.Data.Dapper;
+using Task.Data.Factory;
 
 namespace Task
 {
@@ -41,6 +43,7 @@ namespace Task
                 });
 
             services.AddTransient<ITaskRepository, TaskRepository>();
+            services.AddTransient<ISqlServerConnectionFactory, SqlServerConnectionFactory>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

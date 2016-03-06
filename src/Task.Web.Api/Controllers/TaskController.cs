@@ -9,6 +9,7 @@ using Task.Client.Entities;
 using Task.Data.Contracts;
 using Task.Core;
 using Task.Common;
+using Task.Data.Contracts.Dapper;
 
 namespace Task.Controllers
 {

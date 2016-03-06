@@ -7,6 +7,7 @@ using Task.Business.Entities;
 using Task.Client.Entities;
 using Task.Controllers;
 using Task.Data.Contracts;
+using Task.Data.Contracts.Dapper;
 using Xunit;
 
 namespace Task.Web.Api.Tests.Controllers
