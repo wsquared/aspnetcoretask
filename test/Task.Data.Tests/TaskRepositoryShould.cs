@@ -12,6 +12,7 @@ namespace Task.Data.Tests
     /// <summary>
     /// TODO: Tests are failing since dapper integration - need to setup in memory database
     /// </summary>
+    [Obsolete]
     public class TaskRepositoryShould
     {
         [Fact]
