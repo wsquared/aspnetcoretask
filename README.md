@@ -13,3 +13,6 @@ Build the solution
 Double click on the 'Task.SqlServer.publish.xml' file and publish your local development database
 
 Run the application with F5.
+
+### Tests
+To run the tests you must use Test Explorer by Microsoft - Resharper does not currently work - there are 4 failing tests and 4 passing tests.
