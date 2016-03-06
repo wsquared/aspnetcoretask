@@ -12,8 +12,9 @@ namespace Task.Data.Dapper
     {
         private readonly ISqlServerConnectionFactory _sqlServerConnectionFactory;
 
+        // TODO: Temporary storage - look at setting up configuration in the .net core 'way'
         private const string ConnectionString =
-            @"";
+            @"Data Source=(localdb)\v11.0;Initial Catalog=Task;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
 
         public TaskRepository(ISqlServerConnectionFactory sqlServerConnectionFactory)
         {
