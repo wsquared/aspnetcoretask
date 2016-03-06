@@ -62,4 +62,10 @@
   <ItemGroup>
     <Build Include="Tables\Task.sql" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Task.SqlServer.publish.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <PostDeploy Include="Task.PostDeployment.sql" />
+  </ItemGroup>
 </Project>

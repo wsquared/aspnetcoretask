@@ -2,11 +2,9 @@
 using System.Linq;
 using Microsoft.AspNet.Authorization;
 using Microsoft.AspNet.Http;
-using Microsoft.AspNet.Http.Extensions;
 using Microsoft.AspNet.Mvc;
 using Task.Business.Entities;
 using Task.Client.Entities;
-using Task.Data.Contracts;
 using Task.Core;
 using Task.Common;
 using Task.Data.Contracts.Dapper;
