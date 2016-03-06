@@ -8,19 +8,27 @@ using Task.Controllers;
 using Task.Client.Entities;
 using Task.Business.Entities;
 using Task.Data.Contracts;
-using Task.Common;
 using Xunit;
 
 namespace TaskWeb.Api.Tests.Controllers
 {
     public class TaskControllerShould
     {
+        private readonly TaskEntity _taskEntity = new TaskEntity
+        {
+            TaskId = Guid.NewGuid(),
+            Title = "Clean car",
+            Details = "Subaru Wrx",
+            DueDate = DateTime.UtcNow.Date,
+            CompletedDate = null
+        };
+
         [Fact]
         public void GetTaskViewModels()
         {
             // Arrange
             var mock = new Mock<ITaskRepository>();
-            mock.Setup(x => x.Get()).Returns(new List<TaskEntity>());
+            mock.Setup(x => x.Get()).Returns(new List<TaskEntity>{_taskEntity});
             var controller = new TaskController(mock.Object);
 
             //Act
@@ -35,14 +43,14 @@ namespace TaskWeb.Api.Tests.Controllers
         {
             // Arrange
             var mock = new Mock<ITaskRepository>();
-            mock.Setup(x => x.Create(It.IsAny<TaskEntity>())).Returns(It.IsAny<TaskEntity>());
+            mock.Setup(x => x.Create(It.IsAny<TaskEntity>())).Returns(_taskEntity);
             var controller = new TaskController(mock.Object);
 
             //Act
-            var response = (CreatedResult)controller.Post(new TaskViewModel());
+            var response = (HttpOkObjectResult)controller.Post(new TaskViewModel());
 
             // Assert
-            Assert.IsType<TaskViewModel>(response?.Value);
+            Assert.IsType<TaskViewModel>(response.Value);
         }
 
         [Fact]
@@ -50,14 +58,14 @@ namespace TaskWeb.Api.Tests.Controllers
         {
             // Arrange
             var mock = new Mock<ITaskRepository>();
-            mock.Setup(x => x.Create(It.IsAny<TaskEntity>())).Returns(It.IsAny<TaskEntity>());
+            mock.Setup(x => x.Create(It.IsAny<TaskEntity>())).Returns(_taskEntity);
             var controller = new TaskController(mock.Object);
 
             //Act
-            var response = (CreatedResult)controller.Post(new TaskViewModel());
+            var response = (HttpOkObjectResult)controller.Post(new TaskViewModel());
 
             // Assert
-            Assert.Equal(StatusCodes.Status201Created, response?.StatusCode);
+            Assert.Equal(StatusCodes.Status200OK, response.StatusCode);
         }
 
         [Fact]
@@ -65,14 +73,14 @@ namespace TaskWeb.Api.Tests.Controllers
         {
             // Arrange
             var mock = new Mock<ITaskRepository>();
-            mock.Setup(x => x.Update(It.IsAny<TaskEntity>()));
+            mock.Setup(x => x.Get(It.IsAny<Guid>())).Returns(_taskEntity);
             var controller = new TaskController(mock.Object);
 
             //Act
-            var response = (NoContentResult)controller.Put(Guid.NewGuid(), new TaskViewModel());
+            var response = (HttpStatusCodeResult)controller.Put(Guid.NewGuid(), new TaskViewModel());
 
             // Assert
-            Assert.Equal(StatusCodes.Status204NoContent, response?.StatusCode);
+            Assert.Equal(StatusCodes.Status204NoContent, response.StatusCode);
         }
     }
 }

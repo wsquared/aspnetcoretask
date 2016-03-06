@@ -24,7 +24,8 @@
         "xunit.runner.dnx": "2.1.0-rc1-build204",
         "Task.Web.Api": "1.0.0",
         "Task.Client.Entities": "1.0.0",
-        "Task.Business.Entities": "1.0.0"
+        "Task.Business.Entities": "1.0.0",
+        "Task.Data.Contracts": "1.0.0"
       }
     }
   }

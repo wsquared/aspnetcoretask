@@ -44,7 +44,7 @@ namespace Task.Controllers
                     CompletedDate = x.CompletedDate
                 });
 
-                return Ok(taskViewModels);
+                return Ok(taskViewModels.ToList());
             });
         }
 
@@ -64,7 +64,16 @@ namespace Task.Controllers
                     CompletedDate = taskViewModel.CompletedDate
                 });
 
-                return Created(Request.GetDisplayUrl(), result);
+                var newTaskViewModel = new TaskViewModel
+                {
+                    TaskId = result.TaskId,
+                    Title = result.Title,
+                    Details = result.Details,
+                    DueDate = result.DueDate,
+                    CompletedDate = result.CompletedDate
+                };
+
+                return Ok(newTaskViewModel as object);
             });
         }
 
