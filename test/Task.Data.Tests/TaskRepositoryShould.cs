@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Task.Data;
 using Task.Business.Entities;
+using Moq;
 using Xunit;
 
 namespace Task.Data.Tests
@@ -8,7 +10,7 @@ namespace Task.Data.Tests
     public class TaskRepositoryShould
     {
         [Fact]
-        public void GetTaskEntities()
+        public void ReturnTaskEntitiesWhenGet()
         {
             // Arrange
             var repository = new TaskRepository();
@@ -21,7 +23,20 @@ namespace Task.Data.Tests
         }
 
         [Fact]
-        public void CreateNewTaskEntity()
+        public void ReturnTaskEntityWhenGetByTaskId()
+        {
+            // Arrange
+            var repository = new TaskRepository();
+
+            //Act
+            var result = repository.Get(It.IsAny<Guid>());
+
+            // Assert
+            Assert.IsType<TaskEntity>(result);
+        }
+
+        [Fact]
+        public void ReturnNewTaskEntityWhenCreateNewTask()
         {
             // Arrange
             var repository = new TaskRepository();
@@ -32,5 +47,24 @@ namespace Task.Data.Tests
             // Assert
             Assert.IsType<TaskEntity>(result);
         }
+
+        [Fact]
+        public void NotThrowExceptionWhenUpdate()
+        {
+            // Arrange
+            var repository = new TaskRepository();
+
+            try
+            {
+                //Act
+                repository.Update(new TaskEntity());
+            }
+            catch (Exception ex)
+            {
+                // Assert
+                Assert.True(false, ex.Message);
+            }
+        }
+
     }
 }
