@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNet.Authorization;
 using Microsoft.AspNet.Http;
@@ -34,14 +35,25 @@ namespace Task.Controllers
                     return Ok();
                 }
 
-                var taskViewModels = tasks.Select(x => new TaskViewModel
+                var taskViewModels = CreateTaskViewModels(tasks);
+
+                return Ok(taskViewModels.ToList());
+            });
+        }
+
+        [HttpGet]
+        public IActionResult GetCompleted()
+        {
+            return GetHttpResponse(() =>
+            {
+                var tasks = _taskRepository.GetCompleted();
+
+                if (tasks == null)
                 {
-                    TaskId = x.TaskId,
-                    Title = x.Title,
-                    Details = x.Details,
-                    DueDate = x.DueDate,
-                    CompletedDate = x.CompletedDate
-                });
+                    return Ok();
+                }
+
+                var taskViewModels = CreateTaskViewModels(tasks);
 
                 return Ok(taskViewModels.ToList());
             });
@@ -54,23 +66,9 @@ namespace Task.Controllers
         {
             return GetHttpResponse(() =>
             {
-                var result = _taskRepository.Create(new TaskEntity
-                {
-                    TaskId = taskViewModel.TaskId,
-                    Title = taskViewModel.Title,
-                    Details = taskViewModel.Details,
-                    DueDate = taskViewModel.DueDate,
-                    CompletedDate = taskViewModel.CompletedDate
-                });
+                var result = _taskRepository.Create(CreateTaskEntity(taskViewModel));
 
-                var newTaskViewModel = new TaskViewModel
-                {
-                    TaskId = result.TaskId,
-                    Title = result.Title,
-                    Details = result.Details,
-                    DueDate = result.DueDate,
-                    CompletedDate = result.CompletedDate
-                };
+                var newTaskViewModel = CreateTaskViewModel(result);
 
                 return Ok(newTaskViewModel);
             });
@@ -90,19 +88,43 @@ namespace Task.Controllers
                     throw new TaskNotFoundException(id.ToString());
                 }
 
-                var taskEntity = new TaskEntity
-                {
-                    TaskId = task.TaskId,
-                    Title = taskViewModel.Title,
-                    Details = taskViewModel.Details,
-                    DueDate = taskViewModel.DueDate,
-                    CompletedDate = taskViewModel.CompletedDate
-                };
+                var taskEntity = CreateTaskEntity(taskViewModel);
+
+                taskEntity.TaskId = task.TaskId;
 
                 _taskRepository.Update(taskEntity);
 
                 return new HttpStatusCodeResult(StatusCodes.Status204NoContent);
             });
+        }
+
+        private static IEnumerable<TaskViewModel> CreateTaskViewModels(IEnumerable<TaskEntity> taskEntities)
+        {
+            return taskEntities.Select(CreateTaskViewModel);
+        }
+
+        private static TaskEntity CreateTaskEntity(TaskViewModel taskViewModel)
+        {
+            return new TaskEntity
+            {
+                TaskId = taskViewModel.TaskId,
+                Title = taskViewModel.Title,
+                Details = taskViewModel.Details,
+                DueDate = taskViewModel.DueDate,
+                CompletedDate = taskViewModel.CompletedDate
+            };
+        }
+
+        private static TaskViewModel CreateTaskViewModel(TaskEntity taskEntity)
+        {
+            return new TaskViewModel
+            {
+                TaskId = taskEntity.TaskId,
+                Title = taskEntity.Title,
+                Details = taskEntity.Details,
+                DueDate = taskEntity.DueDate,
+                CompletedDate = taskEntity.CompletedDate
+            };
         }
     }
 }

@@ -6,7 +6,6 @@ using Moq;
 using Task.Business.Entities;
 using Task.Client.Entities;
 using Task.Controllers;
-using Task.Data.Contracts;
 using Task.Data.Contracts.Dapper;
 using Xunit;
 
@@ -28,7 +27,22 @@ namespace Task.Web.Api.Tests.Controllers
         {
             // Arrange
             var mock = new Mock<ITaskRepository>();
-            mock.Setup(x => x.Get()).Returns(new List<TaskEntity>{_taskEntity});
+            mock.Setup(x => x.Get()).Returns(new List<TaskEntity> { _taskEntity });
+            var controller = new TaskController(mock.Object);
+
+            //Act
+            var response = (HttpOkObjectResult)controller.Get();
+
+            // Assert
+            Assert.IsAssignableFrom(typeof(IEnumerable<TaskViewModel>), response.Value);
+        }
+
+        [Fact]
+        public void GetCompletedTaskViewModels()
+        {
+            // Arrange
+            var mock = new Mock<ITaskRepository>();
+            mock.Setup(x => x.GetCompleted()).Returns(new List<TaskEntity> { _taskEntity });
             var controller = new TaskController(mock.Object);
 
             //Act

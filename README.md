@@ -15,4 +15,6 @@ Double click on the 'Task.SqlServer.publish.xml' file and publish your local dev
 Run the application with F5.
 
 ### Tests
-To run the tests you must use Test Explorer by Microsoft - Resharper does not currently work - there are 4 failing tests and 4 passing tests.
+To run the tests you must use Test Explorer by Microsoft - Resharper does not currently work - 
+there are 4 failing tests and 5 passing tests until I integrate an in memory database to run
+integration tests on the dapper queries.
