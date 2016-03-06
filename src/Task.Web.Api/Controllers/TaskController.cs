@@ -74,7 +74,7 @@ namespace Task.Controllers
                     CompletedDate = result.CompletedDate
                 };
 
-                return Ok(newTaskViewModel as object);
+                return Ok(newTaskViewModel);
             });
         }
 

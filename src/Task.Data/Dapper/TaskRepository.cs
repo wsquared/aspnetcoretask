@@ -67,7 +67,9 @@ namespace Task.Data.Dapper
                     SELECT *
                     FROM [Task].[dbo].[Task]
                     WHERE TaskId = @TaskId
-                ", new { TaskId = taskId }).Single();
+                ", 
+                new { TaskId = taskId })
+                .SingleOrDefault();
 
                 return result;
             }

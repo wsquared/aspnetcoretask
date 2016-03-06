@@ -40,7 +40,8 @@ namespace Task
                 {
                     options.SerializerSettings.ContractResolver =
                     new CamelCasePropertyNamesContractResolver();
-                });
+                })
+                .AddDataAnnotationsLocalization();
 
             services.AddTransient<ITaskRepository, TaskRepository>();
             services.AddTransient<ISqlServerConnectionFactory, SqlServerConnectionFactory>();

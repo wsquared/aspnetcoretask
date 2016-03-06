@@ -9,6 +9,9 @@ using Xunit;
 
 namespace Task.Data.Tests
 {
+    /// <summary>
+    /// TODO: Tests are failing since dapper integration - need to setup in memory database
+    /// </summary>
     public class TaskRepositoryShould
     {
         [Fact]
@@ -71,7 +74,8 @@ namespace Task.Data.Tests
         private static ITaskRepository CreateRepository()
         {
             var mock = new Mock<ISqlServerConnectionFactory>();
-            // Setup database
+            
+            // TODO: Setup in memory database
 
             return new TaskRepository(mock.Object);
         }
