@@ -2,14 +2,14 @@
 using Task.Data.Contracts;
 using Task.Business.Entities;
 using System.Collections.Generic;
-using System.Data;
+using System.Data.Common;
 using System.Data.SqlClient;
 
 namespace Task.Data
 {
     public class TaskRepository : ITaskRepository
     {
-        //private static IDbConnection _db = new SqlConnection("");
+        private static DbConnection _db = new SqlConnection("");
 
         public TaskRepository()
         {
