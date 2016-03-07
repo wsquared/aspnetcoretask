@@ -28,9 +28,9 @@ namespace Task.Core
             {
                 response = new HttpUnauthorizedResult();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                response = new HttpStatusCodeResult(StatusCodes.Status500InternalServerError);
+                response = new BadRequestObjectResult(ex.Message);
             }
 
             return response;

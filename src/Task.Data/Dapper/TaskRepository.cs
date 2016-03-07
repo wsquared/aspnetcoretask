@@ -84,6 +84,7 @@ namespace Task.Data.Dapper
 
                 var result = connection.Query<TaskEntity>(
                 @"
+                    DECLARE @TaskId uniqueidentifier
                     SET @TaskId = NEWID()
 
                     INSERT INTO [Task].[dbo].[Task]
