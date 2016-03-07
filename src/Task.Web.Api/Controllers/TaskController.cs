@@ -105,7 +105,7 @@ namespace Task.Controllers
         // PUT api/v1/task/5/complete
         [HttpPut("{id}/complete")]
         [Authorize(ActiveAuthenticationSchemes = "Bearer")]
-        public IActionResult UpdateToCompleted(Guid id, [FromBody] string value)
+        public IActionResult UpdateToCompleted(Guid id)
         {
             return GetHttpResponse(() =>
             {
