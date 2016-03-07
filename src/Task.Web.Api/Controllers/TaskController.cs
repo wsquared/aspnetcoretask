@@ -12,7 +12,7 @@ using Task.Data.Contracts.Dapper;
 
 namespace Task.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v1/[controller]")]
     public class TaskController : ControllerBase
     {
         private readonly ITaskRepository _taskRepository;
@@ -91,7 +91,7 @@ namespace Task.Controllers
 
                 // Bit dirty, but just ensure taskId and completedDate cannot be set through
                 // this call for now
-                taskViewModel.TaskId = task.TaskId;
+                taskViewModel.Id = task.TaskId;
                 taskViewModel.CompletedDate = task.CompletedDate;
 
                 var taskEntity = CreateTaskEntity(taskViewModel);
@@ -136,7 +136,7 @@ namespace Task.Controllers
         {
             return new TaskEntity
             {
-                TaskId = taskViewModel.TaskId,
+                TaskId = taskViewModel.Id,
                 Title = taskViewModel.Title,
                 Details = taskViewModel.Details,
                 DueDate = taskViewModel.DueDate,
@@ -148,7 +148,7 @@ namespace Task.Controllers
         {
             return new TaskViewModel
             {
-                TaskId = taskEntity.TaskId,
+                Id = taskEntity.TaskId,
                 Title = taskEntity.Title,
                 Details = taskEntity.Details,
                 DueDate = taskEntity.DueDate,

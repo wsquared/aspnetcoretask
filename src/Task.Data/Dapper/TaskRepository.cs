@@ -98,7 +98,7 @@ namespace Task.Data.Dapper
                 {
                     Title = taskEntity.Title,
                     Details = taskEntity.Details,
-                    DueDate = taskEntity.DueDate,
+                    DueDate = taskEntity.DueDate?.Date,
                     CompletedDate = taskEntity.CompletedDate
                 }).Single();
 
@@ -118,7 +118,14 @@ namespace Task.Data.Dapper
                     SET Title = @Title, Details = @Details, DueDate = @DueDate, CompletedDate = @CompletedDate
                     WHERE TaskId = @TaskId
 
-                ", taskEntity);
+                ", new
+                {
+                    TaskId = taskEntity.TaskId,
+                    Title = taskEntity.Title,
+                    Details = taskEntity.Details,
+                    DueDate = taskEntity.DueDate?.Date,
+                    CompletedDate = taskEntity.CompletedDate
+                });
             }
         }
 

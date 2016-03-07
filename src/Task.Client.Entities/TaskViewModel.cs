@@ -5,7 +5,7 @@ namespace Task.Client.Entities
 {
     public class TaskViewModel
     {
-        public Guid TaskId { get; set; }
+        public Guid Id { get; set; }
 
         [Required(ErrorMessage = "Title is required")]
         public string Title { get; set; }
