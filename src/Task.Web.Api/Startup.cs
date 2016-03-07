@@ -63,7 +63,11 @@ namespace Task
             // Allow cors when developing
             if (env.IsDevelopment())
             {
-                app.UseCors(builder => builder.WithOrigins("http://localhost:3000"));
+                app.UseCors(builder => 
+                    builder.WithOrigins("http://localhost:3000")
+                            .AllowAnyHeader()
+                            .AllowAnyMethod()
+                            );
             }
 
             // Auth0
