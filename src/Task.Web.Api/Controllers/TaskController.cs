@@ -22,7 +22,7 @@ namespace Task.Controllers
             _taskRepository = taskRepository;
         }
 
-        // GET: api/task
+        // GET: api/v1/task
         [HttpGet]
         public IActionResult Get()
         {
@@ -41,7 +41,7 @@ namespace Task.Controllers
             });
         }
 
-        // GET: api/task/completed
+        // GET: api/v1/task/completed
         [HttpGet("completed")]
         public IActionResult GetCompleted()
         {
@@ -60,7 +60,7 @@ namespace Task.Controllers
             });
         }
 
-        // POST api/task
+        // POST api/v1/task
         [HttpPost]
         [Authorize(ActiveAuthenticationSchemes = "Bearer")]
         public IActionResult Post([FromBody] TaskViewModel taskViewModel)
@@ -75,7 +75,7 @@ namespace Task.Controllers
             });
         }
 
-        // PUT api/task/5
+        // PUT api/v1/task/5
         [HttpPut("{id}")]
         [Authorize(ActiveAuthenticationSchemes = "Bearer")]
         public IActionResult Put(Guid id, [FromBody] TaskViewModel taskViewModel)
@@ -102,10 +102,10 @@ namespace Task.Controllers
             });
         }
 
-        // PUT api/task/5/complete
+        // PUT api/v1/task/5/complete
         [HttpPut("{id}/complete")]
         [Authorize(ActiveAuthenticationSchemes = "Bearer")]
-        public IActionResult UpdateToCompleted(Guid id)
+        public IActionResult UpdateToCompleted(Guid id, [FromBody] string value)
         {
             return GetHttpResponse(() =>
             {
