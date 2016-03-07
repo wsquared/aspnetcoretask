@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.Extensions.OptionsModel;
 using Task.Business.Entities;
 using Moq;
 using Task.Data.Contracts.Dapper;
 using Task.Data.Contracts.Factory;
+using Task.Data.Core;
 using Task.Data.Dapper;
 using Xunit;
 
@@ -74,11 +76,12 @@ namespace Task.Data.Tests
 
         private static ITaskRepository CreateRepository()
         {
-            var mock = new Mock<ISqlServerConnectionFactory>();
-            
+            var mockSqlServerConnectionFactory = new Mock<ISqlServerConnectionFactory>();
+            var mockDataSettings = new Mock<IOptions<DataSettings>>();
+
             // TODO: Setup in memory database
 
-            return new TaskRepository(mock.Object);
+            return new TaskRepository(mockSqlServerConnectionFactory.Object, mockDataSettings.Object);
         }
     }
 }

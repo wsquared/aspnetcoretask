@@ -46,7 +46,7 @@ namespace Task.Web.Api.Tests.Controllers
             var controller = new TaskController(mock.Object);
 
             //Act
-            var response = (HttpOkObjectResult)controller.Get();
+            var response = (HttpOkObjectResult)controller.GetCompleted();
 
             // Assert
             Assert.IsAssignableFrom(typeof(IEnumerable<TaskViewModel>), response.Value);

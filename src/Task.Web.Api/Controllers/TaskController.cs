@@ -22,7 +22,7 @@ namespace Task.Controllers
             _taskRepository = taskRepository;
         }
 
-        // GET: api/values
+        // GET: api/task
         [HttpGet]
         public IActionResult Get()
         {
@@ -41,7 +41,8 @@ namespace Task.Controllers
             });
         }
 
-        [HttpGet]
+        // GET: api/task/completed
+        [HttpGet("completed")]
         public IActionResult GetCompleted()
         {
             return GetHttpResponse(() =>
@@ -88,11 +89,39 @@ namespace Task.Controllers
                     throw new TaskNotFoundException(id.ToString());
                 }
 
+                // Bit dirty, but just ensure taskId and completedDate cannot be set through
+                // this call for now
+                taskViewModel.TaskId = task.TaskId;
+                taskViewModel.CompletedDate = task.CompletedDate;
+
                 var taskEntity = CreateTaskEntity(taskViewModel);
 
-                taskEntity.TaskId = task.TaskId;
-
                 _taskRepository.Update(taskEntity);
+
+                return new HttpStatusCodeResult(StatusCodes.Status204NoContent);
+            });
+        }
+
+        // PUT api/task/5/complete
+        [HttpPut("{id}/complete")]
+        [Authorize(ActiveAuthenticationSchemes = "Bearer")]
+        public IActionResult UpdateToCompleted(Guid id)
+        {
+            return GetHttpResponse(() =>
+            {
+                var task = _taskRepository.Get(id);
+
+                if (task == null)
+                {
+                    throw new TaskNotFoundException(id.ToString());
+                }
+
+                if (task.CompletedDate.HasValue)
+                {
+                    throw new TaskCompletedException(id.ToString());
+                }
+
+                _taskRepository.UpdateToCompleted(id);
 
                 return new HttpStatusCodeResult(StatusCodes.Status204NoContent);
             });

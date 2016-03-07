@@ -2,28 +2,28 @@
 using System.Collections.Generic;
 using System.Linq;
 using Dapper;
+using Microsoft.Extensions.OptionsModel;
 using Task.Business.Entities;
 using Task.Data.Contracts.Dapper;
 using Task.Data.Contracts.Factory;
+using Task.Data.Core;
 
 namespace Task.Data.Dapper
 {
     public class TaskRepository : ITaskRepository
     {
         private readonly ISqlServerConnectionFactory _sqlServerConnectionFactory;
+        private readonly IOptions<DataSettings> _dataSettings;
 
-        // TODO: Temporary storage - look at setting up configuration in the .net core 'way'
-        private const string ConnectionString =
-            @"Data Source=(localdb)\v11.0;Integrated Security=True;Pooling=False";
-
-        public TaskRepository(ISqlServerConnectionFactory sqlServerConnectionFactory)
+        public TaskRepository(ISqlServerConnectionFactory sqlServerConnectionFactory, IOptions<DataSettings> dataSettings)
         {
             _sqlServerConnectionFactory = sqlServerConnectionFactory;
+            _dataSettings = dataSettings;
         }
 
         public IEnumerable<TaskEntity> Get()
         {
-            using (var connection = _sqlServerConnectionFactory.Create(ConnectionString))
+            using (var connection = _sqlServerConnectionFactory.Create(_dataSettings.Value.Dapper.ConnectionString))
             {
                 connection.Open();
 
@@ -41,7 +41,7 @@ namespace Task.Data.Dapper
 
         public IEnumerable<TaskEntity> GetCompleted()
         {
-            using (var connection = _sqlServerConnectionFactory.Create(ConnectionString))
+            using (var connection = _sqlServerConnectionFactory.Create(_dataSettings.Value.Dapper.ConnectionString))
             {
                 connection.Open();
 
@@ -59,7 +59,7 @@ namespace Task.Data.Dapper
 
         public TaskEntity Get(Guid taskId)
         {
-            using (var connection = _sqlServerConnectionFactory.Create(ConnectionString))
+            using (var connection = _sqlServerConnectionFactory.Create(_dataSettings.Value.Dapper.ConnectionString))
             {
                 connection.Open();
 
@@ -68,7 +68,7 @@ namespace Task.Data.Dapper
                     SELECT *
                     FROM [Task].[dbo].[Task]
                     WHERE TaskId = @TaskId
-                ", 
+                ",
                 new { TaskId = taskId })
                 .SingleOrDefault();
 
@@ -78,7 +78,7 @@ namespace Task.Data.Dapper
 
         public TaskEntity Create(TaskEntity taskEntity)
         {
-            using (var connection = _sqlServerConnectionFactory.Create(ConnectionString))
+            using (var connection = _sqlServerConnectionFactory.Create(_dataSettings.Value.Dapper.ConnectionString))
             {
                 connection.Open();
 
@@ -93,7 +93,7 @@ namespace Task.Data.Dapper
                     SELECT *
                     FROM [Task].[dbo].[Task]
                     WHERE TaskId = @TaskId
-                ", 
+                ",
                 new
                 {
                     Title = taskEntity.Title,
@@ -108,7 +108,7 @@ namespace Task.Data.Dapper
 
         public void Update(TaskEntity taskEntity)
         {
-            using (var connection = _sqlServerConnectionFactory.Create(ConnectionString))
+            using (var connection = _sqlServerConnectionFactory.Create(_dataSettings.Value.Dapper.ConnectionString))
             {
                 connection.Open();
 
@@ -119,6 +119,22 @@ namespace Task.Data.Dapper
                     WHERE TaskId = @TaskId
 
                 ", taskEntity);
+            }
+        }
+
+        public void UpdateToCompleted(Guid taskId)
+        {
+            using (var connection = _sqlServerConnectionFactory.Create(_dataSettings.Value.Dapper.ConnectionString))
+            {
+                connection.Open();
+
+                connection.Query<TaskEntity>
+                (@"
+                    UPDATE [Task].[dbo].[Task]
+                    SET CompletedDate = @CompletedDate
+                    WHERE TaskId = @TaskId
+
+                ", new { TaskId = taskId, CompletedDate = DateTimeOffset.UtcNow });
             }
         }
     }

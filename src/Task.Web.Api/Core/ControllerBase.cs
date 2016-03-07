@@ -24,6 +24,10 @@ namespace Task.Core
             {
                 response = new HttpNotFoundObjectResult(ex.Message);
             }
+            catch (TaskCompletedException)
+            {
+                response = new HttpUnauthorizedResult();
+            }
             catch (Exception)
             {
                 response = new HttpStatusCodeResult(StatusCodes.Status500InternalServerError);

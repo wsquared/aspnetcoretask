@@ -11,6 +11,7 @@ using Newtonsoft.Json.Serialization;
 using Task.Core;
 using Task.Data.Contracts.Dapper;
 using Task.Data.Contracts.Factory;
+using Task.Data.Core;
 using Task.Data.Dapper;
 using Task.Data.Factory;
 
@@ -23,6 +24,7 @@ namespace Task
             // Set up configuration sources.
             var builder = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
             Configuration = builder.Build();
         }
@@ -33,6 +35,7 @@ namespace Task
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<Auth0Settings>(Configuration.GetSection("Auth0"));
+            services.Configure<DataSettings>(Configuration.GetSection("Data"));
 
             // Add framework services.
             services.AddMvc()
@@ -43,6 +46,7 @@ namespace Task
                 })
                 .AddDataAnnotationsLocalization();
 
+            // DI Bindings
             services.AddTransient<ITaskRepository, TaskRepository>();
             services.AddTransient<ISqlServerConnectionFactory, SqlServerConnectionFactory>();
         }
@@ -53,6 +57,7 @@ namespace Task
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
+            // Auth0
             var logger = loggerFactory.CreateLogger("Auth0");
             var settings = app.ApplicationServices.GetService<IOptions<Auth0Settings>>();
 

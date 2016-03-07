@@ -15,5 +15,7 @@ namespace Task.Data.Contracts.Dapper
         TaskEntity Create(TaskEntity taskEntity);
 
         void Update(TaskEntity taskEntity);
+
+        void UpdateToCompleted(Guid taskId);
     }
 }
